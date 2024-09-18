@@ -1,6 +1,6 @@
 <?php
 
-namespace Shamiqthedev\CrudGen;
+namespace ShamiqThedev\LaravelCrudGen;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +16,7 @@ class CrudGenServiceProvider extends ServiceProvider
         // Commands, migrations, or file publishes
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Shamiqthedev\CrudGen\Console\Commands\GenerateCrud::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\GenerateCrud::class,
             ]);
         }
     }
