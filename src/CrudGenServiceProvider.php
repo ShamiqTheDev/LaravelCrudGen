@@ -20,10 +20,10 @@ class CrudGenServiceProvider extends ServiceProvider
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeInterface::class,
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeRepository::class,
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeTrait::class,
-                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeV1Controller::class,
-                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeV1Exception::class,
-                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeV1Policy::class,
-                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeV1Request::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeController::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeException::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakePolicy::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeRequest::class,
             ]);
         }
     }
