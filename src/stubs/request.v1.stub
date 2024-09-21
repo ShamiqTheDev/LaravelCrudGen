@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Requests\v1;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use App\Exceptions\{{ class }}ValidationException;
+
+class {{ class }}Request extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|max:100',
+            'email' => 'required|string|email|max:255|unique:{{ table }}',
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        // return [
+        //     'name' => 'sometimes|string|max:100',
+        //     'email' => 'sometimes|string|email|max:100|unique:{{ table }},email,' . $this->route('id'),
+        //     'password' => 'sometimes|string|min:8|confirmed',
+        // ];
+
+        // return [
+        //     'per_page' => 'sometimes|integer|min:1',
+        //     'page' => 'sometimes|integer|min:1',
+        //     'sort' => 'sometimes|string|in:id,name,email',
+        //     'direction' => 'sometimes|string|in:asc,desc',
+        //     'exact_filters' => 'sometimes|array',
+        //     'exact_filters.name' => 'sometimes|nullable|string',
+        //     'exact_filters.email' => 'sometimes|nullable|string',
+        //     'like_filters' => 'sometimes|array',
+        //     'like_filters.name' => 'sometimes|nullable|string',
+        //     'like_filters.email' => 'sometimes|nullable|string',
+        // ];
+
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new {{ class }}ValidationException('Validation error: Errors.', $validator->errors()->toArray());
+    }
+
+    /**
+     * Get the validated data.
+     *
+     * @return array
+     */
+    public function validatedData()
+    {
+        return $this->safe()->only([
+            // Add dynamic fields here
+            // 'name',
+            // 'email',
+            // 'password',
+
+            // 'per_page',
+            // 'page',
+            // 'sort',
+            // 'direction',
+            // 'exact_filters',
+            // 'exact_filters.name',
+            // 'like_filters',
+            // 'like_filters.name'
+        ]);
+    }
+}

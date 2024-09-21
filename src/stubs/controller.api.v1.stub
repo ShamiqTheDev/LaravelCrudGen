@@ -1,0 +1,155 @@
+<?php
+
+namespace App\Http\Controllers\Api\v1;
+
+use App\Models\{{ model }};
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\Interfaces\{{ model }}Interface;
+use App\Http\Requests\v1\{{ model }}FilterRequest;
+use App\Http\Requests\v1\{{ model }}UpdateRequest;
+use App\Http\Requests\v1\{{ model }}GetAllRequest;
+use App\Http\Requests\v1\{{ model }}StoreRequest;
+use ShamiqThedev\LaravelCrudGen\Http\Responses\ApiSuccessResponse;
+use App\Exceptions\{{ ModelCreationFailedException }};
+
+class {{ class }} extends Controller
+{
+    public function __construct(private {{ model }}Interface ${{ modelLowercase }}) {}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index({{ model }}FilterRequest $request)
+    {
+        $this->authorize('viewAny', {{ model }}::class);
+
+        $validatedData = $request->validated();
+        ${{ modelPluralLowercase }} = $this->{{ modelLowercase }}->allPaginated($validatedData);
+
+        return new ApiSuccessResponse(
+            data: ${{ modelPluralLowercase }},
+            message: '{{ modelPlural }} retrieved successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function getAll({{ model }}GetAllRequest $request)
+    {
+        $this->authorize('getAll', {{ model }}::class);
+
+        $validatedData = $request->validated();
+
+        ${{ modelPluralLowercase }} = $this->{{ modelLowercase }}->all($validatedData);
+
+        return new ApiSuccessResponse(
+            data: ${{ modelPluralLowercase }},
+            message: '{{ modelPlural }} retrieved successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{ model }}StoreRequest $request)
+    {
+        $this->authorize('create', {{ model }}::class);
+
+        $validatedData = $request->validated();
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->create($validatedData);
+
+        if (!${{ modelLowercase }}) {
+            throw new {{ ModelCreationFailedException }}('Error in creating {{ model }}.');
+        }
+
+        return new ApiSuccessResponse(
+            data: ${{ modelLowercase }},
+            message: '{{ model }} created successfully!',
+            status: Response::HTTP_CREATED,
+        );
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->find($id);
+        $this->authorize('view', ${{ modelLowercase }});
+
+        return new ApiSuccessResponse(
+            data: ${{ modelLowercase }},
+            message: '{{ model }} retrieved successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{ model }}UpdateRequest $request, string $id)
+    {
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->find($id);
+        $this->authorize('update', ${{ modelLowercase }});
+
+        $validatedData = $request->validated();
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->update($id, $validatedData);
+
+        return new ApiSuccessResponse(
+            data: ${{ modelLowercase }},
+            message: '{{ model }} updated successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->find($id);
+        $this->authorize('delete', ${{ modelLowercase }});
+
+        $this->{{ modelLowercase }}->delete($id);
+
+        return new ApiSuccessResponse(
+            message: '{{ model }} deleted successfully!',
+            data: compact('id'),
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Restore a soft-deleted role.
+     */
+    public function restore(string $id)
+    {
+        $this->authorize('restore', {{ model }}::class);
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->restore($id);
+
+        return new ApiSuccessResponse(
+            data: ${{ modelLowercase }},
+            message: '{{ model }} restored successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+
+    /**
+     * Force delete a role (permanently delete).
+     */
+    public function forceDelete(string $id)
+    {
+        $this->authorize('forceDelete', {{ model }}::class);
+
+        ${{ modelLowercase }} = $this->{{ modelLowercase }}->forceDelete($id);
+
+        return new ApiSuccessResponse(
+            message: '{{ model }} permanently deleted successfully!',
+            status: Response::HTTP_OK,
+        );
+    }
+}

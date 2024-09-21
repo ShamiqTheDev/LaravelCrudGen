@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\{{ model }};
+use App\Interfaces\{{ interface }};
+
+
+class {{ class }} implements {{ interface }}
+{
+
+    public function all(array $validatedData)
+    {
+        return $this->buildQuery($validatedData)->get();
+    }
+
+    public function allPaginated(array $validatedData)
+    {
+        $perPage = $validatedData['per_page'] ?? config('app.pagination.default_per_page');
+        $currentPage = $validatedData['page'] ?? 1;
+
+        return $this->buildQuery($validatedData)
+        ->paginate($perPage, ['*'], 'page', $currentPage);
+    }
+
+    private function buildQuery(array $validatedData)
+    {
+        $exactFilters = $validatedData['exact_filters'] ?? [];
+        $likeFilters = $validatedData['like_filters'] ?? [];
+        $sortColumn = $validatedData['sort'] ?? 'id';
+        $sortDirection = $validatedData['direction'] ?? 'asc';
+
+        $query = {{ model }}::query();
+
+        if (isset($validatedData['from_date']) && isset($validatedData['to_date'])) {
+            $query->whereBetween('created_at', [$validatedData['from_date'], $validatedData['to_date']]);
+        }
+
+        // Check if the user is an admin and include trashed data
+        if (auth()->user()->is_admin) {
+            $query->withTrashed();
+        }
+
+        foreach ($exactFilters as $field => $value) {
+            $query->where($field, $value);
+        }
+
+        foreach ($likeFilters as $field => $value) {
+            $query->where($field, 'like', '%' . $value . '%');
+        }
+
+        return $query->orderBy($sortColumn, $sortDirection);
+    }
+
+    public function find($id)
+    {
+        $query = {{ model }}::query();
+
+        // Check if the user is an admin and include trashed data
+        if (auth()->user()->is_admin) {
+            $query->withTrashed();
+        }
+
+        $query = $query->findOrFail($id);
+
+        return $query;
+    }
+
+    public function create(array $data)
+    {
+        return {{ model }}::create($data);
+    }
+
+    public function update($id, array $data)
+    {
+        $model = {{ model }}::findOrFail($id);
+        $model->update($data);
+        return $model;
+    }
+
+    public function delete($id)
+    {
+        $model = {{ model }}::findOrFail($id);
+        return $model->delete();
+    }
+
+    public function restore($id)
+    {
+        $role = {{ model }}::onlyTrashed()->findOrFail($id);
+        $role->restore();
+
+        return $role;
+    }
+
+    public function forceDelete($id)
+    {
+        $role = {{ model }}::withTrashed()->findOrFail($id);
+
+        return $role->forceDelete();
+    }
+
+}

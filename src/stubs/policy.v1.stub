@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Policies\v1;
+
+use App\Models\User;
+use App\Models\{{ model }};
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class {{ class }}
+{
+    use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view any {{ model_kebab }}.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function viewAny(User $user) // index
+    {
+        return $user->hasPermissionTo('view-any-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can view all {{ model_kebab }}.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function getAll(User $user) // getAll
+    {
+        return $user->hasPermissionTo('get-all-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can create {{ model_kebab }}.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function create(User $user) // store
+    {
+        return $user->hasPermissionTo('create-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\{{ model }}  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function view(User $user, {{ model }} $model) // show
+    {
+        return $user->hasPermissionTo('view-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\{{ model }}  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function update(User $user, {{ model }} $model) // update
+    {
+        return $user->hasPermissionTo('update-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\{{ model }}  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function delete(User $user, {{ model }} $model) // destroy
+    {
+        return $user->hasPermissionTo('delete-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\{{ model }}  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function restore(User $user) // restore
+    {
+        return $user->hasPermissionTo('restore-{{ model_kebab }}');
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\{{ model }}  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function forceDelete(User $user) // forceDelete
+    {
+        return $user->hasPermissionTo('force-delete-{{ model_kebab }}');
+    }
+}
