@@ -1,10 +1,23 @@
 {
-    "name": "shamiqthedev/crud-gen",
-    "description": "Laravel application crud generator",
+    "name": "shamiqthedev/laravel-cgen",
+    "description": "Laravel application crud generator and additional commands.",
+    "keywords": ["laravel commands", "laravel crud generator"],
     "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "illuminate/support": "^10"
+    },
     "autoload": {
         "psr-4": {
             "ShamiqThedev\\LaravelCrudGen\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ShamiqThedev\\LaravelCrudGen\\CrudGenServiceProvider"
+            ]
         }
     },
     "authors": [
