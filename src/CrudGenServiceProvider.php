@@ -24,6 +24,7 @@ class CrudGenServiceProvider extends ServiceProvider
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeException::class,
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakePolicy::class,
                 \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeRequest::class,
+                \ShamiqThedev\LaravelCrudGen\Console\Commands\MakeService::class,
             ]);
         }
     }
