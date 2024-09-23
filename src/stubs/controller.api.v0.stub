@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api;
 
 use App\Models\{{ model }};
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Interfaces\{{ model }}Interface;
-use App\Http\Requests\v1\{{ model }}FilterRequest;
-use App\Http\Requests\v1\{{ model }}UpdateRequest;
-use App\Http\Requests\v1\{{ model }}GetAllRequest;
-use App\Http\Requests\v1\{{ model }}StoreRequest;
+use App\Http\Requests\{{ model }}FilterRequest;
+use App\Http\Requests\{{ model }}UpdateRequest;
+use App\Http\Requests\{{ model }}GetAllRequest;
+use App\Http\Requests\{{ model }}StoreRequest;
 use ShamiqThedev\LaravelCrudGen\Http\Responses\ApiSuccessResponse;
 use App\Exceptions\{{ ModelCreationFailedException }};
 
