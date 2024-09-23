@@ -1,6 +1,6 @@
 <?php
 
-namespace Shamiqthedev\CrudGen\Console\Commands;
+namespace ShamiqThedev\LaravelCrudGen\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
