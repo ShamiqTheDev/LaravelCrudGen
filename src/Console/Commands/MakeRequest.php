@@ -20,7 +20,7 @@ class MakeRequest extends Command
      *
      * @var string
      */
-    protected $description = 'Creates a new v1 request class';
+    protected $description = 'Creates a new request class';
 
     public function __construct(protected Filesystem $files)
     {
@@ -37,7 +37,7 @@ class MakeRequest extends Command
         $name = $this->singularizeIfNeeded($name);
 
         $requestClass = $name . 'Request';
-        $directory = app_path('Http/Requests/v1');
+        $directory = app_path('Http/Requests');
 
         if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -53,13 +53,16 @@ class MakeRequest extends Command
         $this->createRequest($path, $name);
         $this->createException($name);
     }
-
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
     public function createRequest($path, $name) {
         $className = $name . 'Request';
         $exceptionName = $name . 'ValidationException';
         $tableName = Str::snake(Str::plural($name));
 
-        $stub = $this->files->get('stubs/request.v1.stub');
+        $stub = $this->files->get($this->getStub('request.v0.stub'));
 
         $stub = str_replace(
             [
@@ -76,12 +79,12 @@ class MakeRequest extends Command
         );
 
         $this->files->put($path, $stub);
-        $this->info("Request [app/Http/Requests/v1/{$className}.php] created successfully.");
+        $this->info("Request [app/Http/Requests/{$className}.php] created successfully.");
     }
 
     public function createException($name) {
         $exceptionName = $name . 'ValidationException';
-        $this->call('make:exception:v1', ['name' => $exceptionName]);
+        $this->call('cgen:exception', ['name' => $exceptionName]);
     }
 
     function singularizeIfNeeded($word)

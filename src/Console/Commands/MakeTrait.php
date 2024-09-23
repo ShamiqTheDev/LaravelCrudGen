@@ -40,7 +40,7 @@ class MakeTrait extends Command
         $this->makeDirectory($path);
 
         // Replace stub placeholders with actual values
-        $stub = $this->files->get($this->getStub());
+        $stub = $this->files->get($this->getStub('trait.stub'));
 
         // Replace namespace and class name
         $stub = $this->replaceNamespace($stub);
@@ -58,9 +58,9 @@ class MakeTrait extends Command
         return app_path('Traits/' . $name . '.php');
     }
 
-    protected function getStub()
+    protected function getStub(string $stub)
     {
-        return base_path('stubs/trait.stub');
+        return __DIR__ . "/../../stubs/" . $stub;
     }
 
     protected function makeDirectory(string $path)
