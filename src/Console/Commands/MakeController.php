@@ -20,7 +20,7 @@ class MakeController extends Command
      *
      * @var string
      */
-    protected $description = 'Creates a new v1 controller';
+    protected $description = 'Creates a new controller';
 
     public function __construct(protected Filesystem $files)
     {
@@ -38,7 +38,7 @@ class MakeController extends Command
 
         $namePluralised = $this->pluralizeIfNeeded($name);
         $controllerName = $namePluralised . 'Controller';
-        $directory = app_path('Http/Controllers/Api/v1');
+        $directory = app_path('Http/Controllers/Api');
 
         if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -55,13 +55,18 @@ class MakeController extends Command
         $this->createException($name);
     }
 
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
+
     public function createController($path, $name) {
         $modelName = Str::singular($name);
         $modelLowercase = Str::lower($modelName);
         $modelPlural = Str::plural($modelName);
         $modelPluralLowercase = Str::lower($modelPlural);
 
-        $stub = $this->files->get('stubs/controller.api.v1.stub');
+        $stub = $this->files->get($this->getStub('controller.api.v0.stub'));
 
         $stub = str_replace(
             [
@@ -84,12 +89,12 @@ class MakeController extends Command
         );
 
         $this->files->put($path, $stub);
-        $this->info("Controller [app/Http/Controllers/Api/v1/{$modelPlural}Controller.php] created successfully.");
+        $this->info("Controller [app/Http/Controllers/Api/{$modelPlural}Controller.php] created successfully.");
     }
 
     public function createException($name) {
         $exceptionName = $name . 'CreationFailedException';
-        $this->call('make:exception:v1', ['name' => $exceptionName]);
+        $this->call('cgen:exception', ['name' => $exceptionName]);
     }
 
     function pluralizeIfNeeded($word)

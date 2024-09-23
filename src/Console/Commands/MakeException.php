@@ -20,7 +20,7 @@ class MakeException extends Command
      *
      * @var string
      */
-    protected $description = 'Creates a new v1 exception class';
+    protected $description = 'Creates a new exception class';
 
     public function __construct(protected Filesystem $files)
     {
@@ -52,11 +52,16 @@ class MakeException extends Command
         $this->createException($path, $name);
     }
 
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
+
     public function createException($path, $name)
     {
         $className = $name . 'Exception';
 
-        $stub = $this->files->get('stubs/exception.v1.stub');
+        $stub = $this->files->get($this->getStub('exception.v0.stub'));
 
         $stub = str_replace(
             [
