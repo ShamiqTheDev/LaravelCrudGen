@@ -59,7 +59,10 @@ class MakeRepository extends Command
         $this->createRepository($repositoryPath, $name, $modelName, $interfaceName);
 
     }
-
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
     /**
      * Create the repository file.
      *
@@ -70,7 +73,7 @@ class MakeRepository extends Command
      */
     protected function createRepository($path, $name, $modelName, $interfaceName)
     {
-        $repositoryStub = $this->files->get('stubs/repository.stub');
+        $repositoryStub = $this->files->get($this->getStub('repository.stub'));
         $repositoryStub = str_replace(
             ['{{ class }}', '{{ model }}', '{{ interface }}'],
             [$name, $modelName, $interfaceName],
