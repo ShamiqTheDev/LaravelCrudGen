@@ -20,7 +20,7 @@ class MakePolicy extends Command
      *
      * @var string
      */
-    protected $description = 'Creates a new v1 policy class';
+    protected $description = 'Creates a new policy class';
 
     public function __construct(protected Filesystem $files)
     {
@@ -37,7 +37,7 @@ class MakePolicy extends Command
         $name = $this->singularizeIfNeeded($name);
 
         $policyClass = $name . 'Policy';
-        $directory = app_path('Policies/v1');
+        $directory = app_path('Policies');
 
         if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -54,12 +54,17 @@ class MakePolicy extends Command
         $this->generateSeederMessage($name);
     }
 
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
+
     public function createPolicy($path, $name)
     {
         $className = $name . 'Policy';
         $modelKebab = Str::kebab($name);
 
-        $stub = $this->files->get('stubs/policy.v1.stub');
+        $stub = $this->files->get($this->getStub('policy.v0.stub'));
 
         $stub = str_replace(
             [
@@ -76,7 +81,7 @@ class MakePolicy extends Command
         );
 
         $this->files->put($path, $stub);
-        $this->info("Policy [app/Policies/v1/{$className}.php] created successfully.");
+        $this->info("Policy [app/Policies/{$className}.php] created successfully.");
     }
 
     function singularizeIfNeeded($word)
