@@ -48,7 +48,10 @@ class MakeInterface extends Command
         $this->createInterface($interfacePath, $interfaceName);
 
     }
-
+    protected function getStub(string $stub)
+    {
+        return __DIR__ . "/../../stubs/" . $stub;
+    }
     /**
      * Create the interface file.
      *
@@ -57,7 +60,7 @@ class MakeInterface extends Command
      */
     protected function createInterface($path, $interfaceName)
     {
-        $interfaceStub = $this->files->get('stubs/interface.stub');
+        $interfaceStub = $this->files->get($this->getStub('interface.stub'));
         $interfaceStub = str_replace(
             ['{{ interface }}'],
             [$interfaceName],
