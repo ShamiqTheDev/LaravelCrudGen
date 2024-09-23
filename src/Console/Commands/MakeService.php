@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class MakeService extends Command
 {
-    protected $signature = 'make:service {name}';
+    protected $signature = 'cgen:service {name}';
     protected $description = 'Create a new service class';
 
     public function __construct(protected Filesystem $files)
@@ -47,7 +47,7 @@ class MakeService extends Command
 
         $this->makeDirectory($path);
 
-        $stub = $this->files->get($this->getStub());
+        $stub = $this->files->get($this->getStub('service.stub'));
         $stub = $this->replaceClass($stub, $name);
 
         $this->files->put($path, $stub);
@@ -60,9 +60,9 @@ class MakeService extends Command
         return app_path('Services/' . $name . '.php');
     }
 
-    protected function getStub()
+    protected function getStub(string $stub)
     {
-        return base_path('stubs/service.stub');
+        return __DIR__ . "/../../stubs/" . $stub;
     }
 
     protected function makeDirectory(string $path)
