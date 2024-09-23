@@ -2,9 +2,6 @@
     "name": "shamiqthedev/crud-gen",
     "description": "Laravel application crud generator",
     "type": "library",
-    "require": {
-        "laravel/framework": "^10"
-    },
     "autoload": {
         "psr-4": {
             "ShamiqThedev\\LaravelCrudGen\\": "src/"
