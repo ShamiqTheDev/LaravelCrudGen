@@ -85,8 +85,8 @@ class MakeAll extends Command
         $directories = [
             app_path('Repositories'),
             app_path('Interfaces'),
-            app_path('Http/Controllers/Api/v1'),
-            app_path('Policies/v1'),
+            app_path('Http/Controllers/Api'),
+            app_path('Policies'),
         ];
 
         foreach ($directories as $directory) {
@@ -104,7 +104,7 @@ class MakeAll extends Command
     protected function createInterface($name)
     {
         $interfaceName = $name . 'Interface';
-        $this->call('make:interface', ['name' => $interfaceName]);
+        $this->call('cgen:interface', ['name' => $interfaceName]);
     }
 
     /**
@@ -115,7 +115,7 @@ class MakeAll extends Command
     protected function createRepository($name)
     {
         $repositoryName = $name . 'Repository';
-        $this->call('make:repository', ['name' => $repositoryName]);
+        $this->call('cgen:repository', ['name' => $repositoryName]);
     }
 
     /**
@@ -147,7 +147,7 @@ class MakeAll extends Command
     protected function createController($name)
     {
         $controllerName = $name . 'Controller';
-        $this->call('make:controller:v1', ['name' => $controllerName]);
+        $this->call('cgen:controller', ['name' => $controllerName]);
     }
 
     /**
@@ -161,7 +161,7 @@ class MakeAll extends Command
 
         foreach ($requestTypes as $type) {
             $requestName = $name . $type . 'Request';
-            $this->call('make:request:v1', ['name' => $requestName]);
+            $this->call('cgen:request', ['name' => $requestName]);
         }
     }
 
@@ -173,6 +173,6 @@ class MakeAll extends Command
     protected function createPolicy($name)
     {
         $policyName = $name . 'Policy';
-        $this->call('make:policy:v1', ['name' => $policyName]);
+        $this->call('cgen:policy', ['name' => $policyName]);
     }
 }
